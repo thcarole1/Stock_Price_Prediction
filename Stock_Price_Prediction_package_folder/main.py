@@ -6,12 +6,24 @@ from ml_logic.data import retrieve_data, retrieve_historical_data,\
                             create_features_target, reshape_historical_data
 
 from ml_logic.preprocessor import  check_outliers, scale_with_outliers, scale_without_outliers
-from ml_logic.model import reshape_input_data, define_LSTM_model, train_model
-
+from ml_logic.model import reshape_input_data, define_LSTM_model,\
+                            train_model, plot_train_actual_predictions,\
+                            plot_actual_predictions, \
+                            plot_actual_predictions_last_values,\
+                            create_summary
 
 def predict_stock_price():
     # Enter ticker and target
-    ticker = 'AAPL'
+    # ticker = "AAPL"
+    # ticker = "MSFT"
+    # ticker = "NVDA"
+    # ticker = "GOOGL"
+    # ticker = "AMZN"
+    # ticker = "META"
+    # ticker = "TSLA"
+    ticker = "STLA"
+
+    # Choose target
     target = 'Close'
 
     # Retrive global data
@@ -28,8 +40,8 @@ def predict_stock_price():
 
     # Check for outliers
     numerical_columns_w_outliers, numerical_columns_no_outliers = check_outliers(historical_data)
-    print(f"Columns WITH outliers : {numerical_columns_w_outliers}")
-    print(f"Columns WITHOUT outliers : {numerical_columns_no_outliers}")
+    # print(f"Columns WITH outliers : {numerical_columns_w_outliers}")
+    # print(f"Columns WITHOUT outliers : {numerical_columns_no_outliers}")
 
     # Scaling temporal data WITH outliers
     if len(numerical_columns_w_outliers) != 0:
@@ -63,9 +75,8 @@ def predict_stock_price():
 
     # Create LSTM model
     model = define_LSTM_model(X_train)
-    print(type(model))
-
-    print(type(y_train))
+    # print(type(model))
+    # print(type(y_train))
 
     # Train model
     train_model(model, X_train, y_train )
@@ -88,6 +99,27 @@ def predict_stock_price():
     y_test = scaler.inverse_transform(y_test)
     y_pred = scaler.inverse_transform(y_pred)
     y_train = scaler.inverse_transform(y_train)
+
+    # ****************  Visualization  ******************************************
+    # Plot the train data, the actual unseen data (y_test) and the predictions (y_pred)
+    plot_train_actual_predictions(y_train, y_test, y_pred,
+                                  y_train_dates,y_test_dates,
+                                  currency,short_name)
+
+    # Plot the train data, the actual unseen data (y_test) and the predictions (y_pred)
+    plot_actual_predictions(y_test, y_pred,y_test_dates, currency,short_name)
+
+    # Plot stock prices : actual vs predicted  (limited values)
+    # (ONLY predictions and actual. No train data displayed)
+    plot_actual_predictions_last_values(y_test, y_pred,y_test_dates, currency,short_name)
+
+    # ***************************************************************************
+
+    # This function creates a summary dataframe describing
+    # actual unseen values (y_test), predictions (y_pred)
+    # and delta (absolute value btw both)
+    summary = create_summary(y_test, y_pred, y_test_dates)
+    print(summary)
 
 
 def say_hello():

@@ -10,6 +10,6 @@ install:
 test:
 	@pytest -v tests
 
-reset_trained_models:
-	@rm -rf ${TRAIN_MDL_DIR}
-	@mkdir ${TRAIN_MDL_DIR}
+reset_processed_data_dir:
+	@rm -rf ${PROCESSED_DATA_DIR}
+	@mkdir ${PROCESSED_DATA_DIR}
