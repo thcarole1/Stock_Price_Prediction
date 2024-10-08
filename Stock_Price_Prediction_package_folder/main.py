@@ -1,16 +1,16 @@
 
 # Import from .py files
 from ml_logic.data import retrieve_data, retrieve_historical_data,\
-                          retrieve_currency, retrieve_short_name,\
-                            memorize_dates, define_train_test_data,\
-                            create_features_target, reshape_historical_data
+retrieve_currency, retrieve_short_name,\
+memorize_dates, define_train_test_data,\
+create_features_target, reshape_historical_data
 
-from ml_logic.preprocessor import  check_outliers, scale_with_outliers, scale_without_outliers
+from ml_logic.preprocessor import  check_outliers, scale_with_outliers,\
+scale_without_outliers
+
 from ml_logic.model import reshape_input_data, define_LSTM_model,\
-                            train_model, plot_train_actual_predictions,\
-                            plot_actual_predictions, \
-                            plot_actual_predictions_last_values,\
-                            create_summary
+train_model, plot_train_actual_predictions, plot_actual_predictions, \
+plot_actual_predictions_last_values,create_summary
 
 def predict_stock_price():
     # Enter ticker and target
@@ -26,7 +26,7 @@ def predict_stock_price():
     # Choose target
     target = 'Close'
 
-    # Retrive global data
+    # Retrieve global data
     data = retrieve_data(ticker)
 
     # Retrieve historical data
@@ -120,7 +120,6 @@ def predict_stock_price():
     # and delta (absolute value btw both)
     summary = create_summary(y_test, y_pred, y_test_dates)
     print(summary)
-
 
 def say_hello():
     print('Hello World !')

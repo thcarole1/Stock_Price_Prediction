@@ -17,7 +17,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras import layers
 from tensorflow.keras.callbacks import EarlyStopping
 
-def reshape_input_data(X_train : np.array, X_test : np.array):
+def reshape_input_data_api(X_train : np.array, X_test : np.array):
     '''
     Reshape data for LSTM (samples, time_steps, features)
     '''
@@ -27,7 +27,7 @@ def reshape_input_data(X_train : np.array, X_test : np.array):
     print("✅ Input data has been reshaped for LSTM model")
     return X_train, X_test
 
-def define_LSTM_model(X_train : np.array):
+def define_LSTM_model_api(X_train : np.array):
     '''
     This function creates an architecture and compilation conditions for the deep learning model
     '''
@@ -43,7 +43,7 @@ def define_LSTM_model(X_train : np.array):
     print("✅ LSTM model has been defined")
     return model
 
-def train_model(model : Sequential, X_train : np.array, y_train : np.array ):
+def train_model_api(model : Sequential, X_train : np.array, y_train : np.array ):
     '''
     This function trains the model.
     '''
@@ -61,7 +61,7 @@ def train_model(model : Sequential, X_train : np.array, y_train : np.array ):
                         shuffle=False)
     print("✅ LSTM model has been trained")
 
-def plot_train_actual_predictions(y_train : np.array,
+def plot_train_actual_predictions_api(y_train : np.array,
          y_test : np.array,
          y_pred : np.array,
          y_train_dates : np.array,
@@ -77,10 +77,10 @@ def plot_train_actual_predictions(y_train : np.array,
     #Delete previous any previous png file
     image_name = 'data/processed_data/train_test_pred.png'
 
-    file_exists = exists(image_name)
-    if file_exists:
-        os.remove(image_name)
-        # print(f"File '{file_path}' deleted successfully.")
+    # file_exists = exists(image_name)
+    # if file_exists:
+    #     os.remove(image_name)
+    #     print(f"File '{image_name}' deleted successfully.")
 
     # Plot stock prices : actual vs predicted
     plt.figure(figsize=(16,8))
@@ -91,8 +91,7 @@ def plot_train_actual_predictions(y_train : np.array,
     plt.legend(['Training data', 'Actual data', 'Predictions'], loc='lower right')
     plt.xlabel('Date', fontsize=18)
     plt.ylabel(f'Close price in {currency}', fontsize=18)
-    plt.savefig(f'data/processed_data/train_test_pred.png')
-    print("✅ Figure of train data, test data and predictions created !")
+    # plt.savefig(f'data/processed_data/train_test_pred.png')
 
     # Save the plot as bytes
     byte_buffer = BytesIO()
@@ -107,9 +106,10 @@ def plot_train_actual_predictions(y_train : np.array,
 
     # image_data = image_name.encode('utf-8')
     plt.close()
+    print("✅ Figure of train data, test data and predictions created !")
     return [image_name, image_data]
 
-def plot_actual_predictions(y_test : np.array,
+def plot_actual_predictions_api(y_test : np.array,
                             y_pred : np.array,
                             y_test_dates : np.array,
                             currency : str,
@@ -126,7 +126,7 @@ def plot_actual_predictions(y_test : np.array,
     file_exists = exists(image_name)
     if file_exists:
         os.remove(image_name)
-        # print(f"File '{file_path}' deleted successfully.")
+        print(f"File '{image_name}' deleted successfully.")
 
     # Plot stock prices : actual vs predicted (ONLY predictions and actual. No train data displayed)
     plt.figure(figsize=(16,8))
@@ -136,9 +136,8 @@ def plot_actual_predictions(y_test : np.array,
     plt.legend(['Actual data', 'Predictions'], loc='lower right')
     plt.xlabel('Date', fontsize=18)
     plt.ylabel(f'Close price in {currency}', fontsize=18)
-    plt.savefig(f'data/processed_data/test_pred.png')
-    plt.close()
-    print("✅ Figure of test data and predictions created !")
+    # plt.savefig(f'data/processed_data/test_pred.png')
+
     # Save the plot as bytes
     byte_buffer = BytesIO()
     plt.savefig(byte_buffer, format='png')  # Save as PNG in memory
@@ -152,9 +151,10 @@ def plot_actual_predictions(y_test : np.array,
 
     # image_data = image_name.encode('utf-8')
     plt.close()
+    print("✅ Figure of test data and predictions created !")
     return [image_name, image_data]
 
-def plot_actual_predictions_last_values(y_test : np.array,
+def plot_actual_predictions_last_values_api(y_test : np.array,
                                         y_pred : np.array,
                                         y_test_dates : np.array,
                                         currency : str,
@@ -170,7 +170,7 @@ def plot_actual_predictions_last_values(y_test : np.array,
     file_exists = exists(image_name)
     if file_exists:
         os.remove(image_name)
-        # print(f"File '{file_path}' deleted successfully.")
+        print(f"File '{image_name}' deleted successfully.")
 
     # Plot stock prices : actual vs predicted (ONLY predictions and actual. No train data displayed)
     number_last = 100
@@ -183,8 +183,6 @@ def plot_actual_predictions_last_values(y_test : np.array,
     plt.xlabel('Date', fontsize=18)
     plt.ylabel(f'Close price in {currency}', fontsize=18)
     plt.savefig(f'data/processed_data/test_pred_limited.png')
-    plt.close()
-    print("✅ Figure of test data and predictions (limited values) created !")
 
     # Save the plot as bytes
     byte_buffer = BytesIO()
@@ -199,11 +197,12 @@ def plot_actual_predictions_last_values(y_test : np.array,
 
     # image_data = image_name.encode('utf-8')
     plt.close()
+    print("✅ Figure of test data and predictions (limited values) created !")
     return [image_name, image_data]
 
-def create_summary(y_test : np.array,
-                   y_pred : np.array,
-                   y_test_dates : np.array):
+def create_summary_api(y_test : np.array,
+                        y_pred : np.array,
+                        y_test_dates : np.array):
 
     '''
     This function creates a summary dataframe describing
