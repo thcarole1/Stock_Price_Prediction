@@ -11,7 +11,7 @@ app = FastAPI()
 # Define a root `/` endpoint
 @app.get('/')
 def index():
-    return {'New project': 'This is the first app of my new project !'}
+    return {'Stock Price Prediction app': 'This is the first app of my new project !'}
 
 @app.get("/ticker/")
 async def read_item(query: str):
@@ -38,4 +38,6 @@ async def read_item(query: str):
     with open("zip_buffer_file", "wb") as f:
         f.write(zip_buffer.getvalue())
 
-    return FileResponse("zip_buffer_file", media_type="application/zip", filename="data.zip")
+    return FileResponse("zip_buffer_file",
+                        media_type="application/zip",
+                        filename="stock_price_prediction_data.zip")
