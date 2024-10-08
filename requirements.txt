@@ -9,3 +9,10 @@ seaborn
 scikit-learn
 fastapi
 uvicorn
+yfinance
+scipy
+tensorflow
+# zipfile
+# os
+# io
+# warnings
