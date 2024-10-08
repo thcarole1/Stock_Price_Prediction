@@ -26,7 +26,7 @@ def predict_stock_price():
     # Choose target
     target = 'Close'
 
-    # Retrive global data
+    # Retrieve global data
     data = retrieve_data(ticker)
 
     # Retrieve historical data
@@ -102,9 +102,12 @@ def predict_stock_price():
 
     # ****************  Visualization  ******************************************
     # Plot the train data, the actual unseen data (y_test) and the predictions (y_pred)
-    plot_train_actual_predictions(y_train, y_test, y_pred,
+    test = plot_train_actual_predictions(y_train, y_test, y_pred,
                                   y_train_dates,y_test_dates,
                                   currency,short_name)
+
+    print(f"Image name type  :{type(test[0])}")
+    print(f"Image data type  :{type(test[1])}")
 
     # Plot the train data, the actual unseen data (y_test) and the predictions (y_pred)
     plot_actual_predictions(y_test, y_pred,y_test_dates, currency,short_name)

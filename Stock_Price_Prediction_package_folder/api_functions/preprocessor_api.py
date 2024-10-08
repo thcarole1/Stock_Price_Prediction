@@ -7,7 +7,7 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.preprocessing import MinMaxScaler
 
 
-def check_outliers(historical_data : pd.DataFrame):
+def check_outliers_api(historical_data : pd.DataFrame):
     '''
     This function checks for outliers in the historical data.
     Returns 2 lists of strings :
@@ -55,7 +55,7 @@ def check_outliers(historical_data : pd.DataFrame):
         print("✅ Check for outliers has been done !")
         return numerical_columns_w_outliers, numerical_columns_no_outliers
 
-def scale_with_outliers(historical_data : pd.DataFrame, numerical_columns_w_outliers : list):
+def scale_with_outliers_api(historical_data : pd.DataFrame, numerical_columns_w_outliers : list):
     '''
     This function scales the data that contains outliers, with a RobustScaler.
     Returns a pandas dataframe with scaled data (with Robust Scaler).
@@ -75,7 +75,7 @@ def scale_with_outliers(historical_data : pd.DataFrame, numerical_columns_w_outl
         print("✅ Historical data has been scaled with Robust Scaler !")
         return historical_data, rb_scaler
 
-def scale_without_outliers(historical_data : pd.DataFrame, numerical_columns_no_outliers : list):
+def scale_without_outliers_api(historical_data : pd.DataFrame, numerical_columns_no_outliers : list):
     '''
     This function scales the data that DOES NOT contain outliers, with a MinMax Scaler.
     Returns a pandas dataframe with scaled data (with MinMax Scaler).
