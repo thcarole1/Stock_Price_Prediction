@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 from os.path import exists
+from io import BytesIO
 
 import warnings
 warnings.filterwarnings(action = 'ignore')
@@ -76,10 +77,10 @@ def plot_train_actual_predictions_api(y_train : np.array,
     #Delete previous any previous png file
     image_name = 'data/processed_data/train_test_pred.png'
 
-    file_exists = exists(image_name)
-    if file_exists:
-        os.remove(image_name)
-        print(f"File '{image_name}' deleted successfully.")
+    # file_exists = exists(image_name)
+    # if file_exists:
+    #     os.remove(image_name)
+    #     print(f"File '{image_name}' deleted successfully.")
 
     # Plot stock prices : actual vs predicted
     plt.figure(figsize=(16,8))
@@ -90,10 +91,22 @@ def plot_train_actual_predictions_api(y_train : np.array,
     plt.legend(['Training data', 'Actual data', 'Predictions'], loc='lower right')
     plt.xlabel('Date', fontsize=18)
     plt.ylabel(f'Close price in {currency}', fontsize=18)
-    plt.savefig(f'data/processed_data/train_test_pred.png')
+    # plt.savefig(f'data/processed_data/train_test_pred.png')
+
+    # Save the plot as bytes
+    byte_buffer = BytesIO()
+    plt.savefig(byte_buffer, format='png')  # Save as PNG in memory
+    byte_buffer.seek(0)  # Reset buffer position to the beginning
+
+    # byte_buffer now contains the image as bytes
+    image_data = byte_buffer.getvalue()
+
+    # Optionally, you can close the buffer
+    byte_buffer.close()
+
+    # image_data = image_name.encode('utf-8')
     plt.close()
     print("✅ Figure of train data, test data and predictions created !")
-    image_data = image_name.encode('utf-8')
     return [image_name, image_data]
 
 def plot_actual_predictions_api(y_test : np.array,
@@ -123,10 +136,22 @@ def plot_actual_predictions_api(y_test : np.array,
     plt.legend(['Actual data', 'Predictions'], loc='lower right')
     plt.xlabel('Date', fontsize=18)
     plt.ylabel(f'Close price in {currency}', fontsize=18)
-    plt.savefig(f'data/processed_data/test_pred.png')
+    # plt.savefig(f'data/processed_data/test_pred.png')
+
+    # Save the plot as bytes
+    byte_buffer = BytesIO()
+    plt.savefig(byte_buffer, format='png')  # Save as PNG in memory
+    byte_buffer.seek(0)  # Reset buffer position to the beginning
+
+    # byte_buffer now contains the image as bytes
+    image_data = byte_buffer.getvalue()
+
+    # Optionally, you can close the buffer
+    byte_buffer.close()
+
+    # image_data = image_name.encode('utf-8')
     plt.close()
     print("✅ Figure of test data and predictions created !")
-    image_data = image_name.encode('utf-8')
     return [image_name, image_data]
 
 def plot_actual_predictions_last_values_api(y_test : np.array,
@@ -158,9 +183,21 @@ def plot_actual_predictions_last_values_api(y_test : np.array,
     plt.xlabel('Date', fontsize=18)
     plt.ylabel(f'Close price in {currency}', fontsize=18)
     plt.savefig(f'data/processed_data/test_pred_limited.png')
+
+    # Save the plot as bytes
+    byte_buffer = BytesIO()
+    plt.savefig(byte_buffer, format='png')  # Save as PNG in memory
+    byte_buffer.seek(0)  # Reset buffer position to the beginning
+
+    # byte_buffer now contains the image as bytes
+    image_data = byte_buffer.getvalue()
+
+    # Optionally, you can close the buffer
+    byte_buffer.close()
+
+    # image_data = image_name.encode('utf-8')
     plt.close()
     print("✅ Figure of test data and predictions (limited values) created !")
-    image_data = image_name.encode('utf-8')
     return [image_name, image_data]
 
 def create_summary_api(y_test : np.array,

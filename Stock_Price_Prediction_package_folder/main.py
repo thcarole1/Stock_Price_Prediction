@@ -109,6 +109,8 @@ def predict_stock_price():
     print(f"Image name type  :{type(test[0])}")
     print(f"Image data type  :{type(test[1])}")
 
+    # breakpoint()
+
     # Plot the train data, the actual unseen data (y_test) and the predictions (y_pred)
     plot_actual_predictions(y_test, y_pred,y_test_dates, currency,short_name)
 

@@ -16,7 +16,6 @@ def index():
 @app.get("/ticker/")
 async def read_item(query: str):
     image_dict, summary = predict_stock_price_api(query)
-    print(image_dict)
 
     # Create a ZIP archive in memory
     zip_buffer = BytesIO()
@@ -26,9 +25,6 @@ async def read_item(query: str):
             image_name = value[0]
             image_data = value[1] # Replace with actual image data
             zip_file.writestr(image_name, image_data)
-            print(f"Image_name : {image_name}")
-            print(f"Type of image_name : {type(image_name)}")
-            print(f"Type of image_data : {type(image_data)}")
 
         # Add Pandas dataframe as CSV
         csv_buffer = BytesIO()
