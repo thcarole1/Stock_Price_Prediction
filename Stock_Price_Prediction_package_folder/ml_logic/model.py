@@ -228,6 +228,6 @@ def create_summary(y_test : np.array,
     actual_and_pred['delta'] = np.abs(actual_and_pred['actual'] - actual_and_pred['predictions'])
 
     # Description of dataframe
-    summary = actual_and_pred.describe()
+    summary = actual_and_pred.describe().reset_index()
     print("✅ Summary dataframe created !")
     return summary
