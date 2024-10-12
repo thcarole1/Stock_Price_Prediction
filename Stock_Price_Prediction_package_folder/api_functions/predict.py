@@ -1,4 +1,6 @@
 
+import pandas as pd
+
 from Stock_Price_Prediction_package_folder.api_functions.data_api import retrieve_data_api,\
 retrieve_historical_data_api, retrieve_currency_api,\
 retrieve_short_name_api, memorize_dates_api,\
@@ -32,6 +34,12 @@ def predict_stock_price_api(query):
 
     # Retrieve short name of company
     short_name = retrieve_short_name_api(data)
+
+    # Basic information dataframe
+    basic_info = pd.DataFrame({ "ticker" : query,
+                                "short_name" : short_name,
+                                "currency" : currency},
+                                index = [0])
 
     # Check for outliers
     numerical_columns_w_outliers, numerical_columns_no_outliers = check_outliers_api(historical_data)
@@ -91,6 +99,13 @@ def predict_stock_price_api(query):
     y_pred = scaler.inverse_transform(y_pred)
     y_train = scaler.inverse_transform(y_train)
 
+    # Prepare for export
+    y_test_export = pd.DataFrame(y_test, columns=['y_test'])
+    y_pred_export = pd.DataFrame(y_pred, columns=['y_pred'])
+    y_train_export = pd.DataFrame(y_train, columns=['y_train'])
+    y_train_dates_export = pd.DataFrame(y_train_dates, columns=['y_train_dates'])
+    y_test_dates_export = pd.DataFrame(y_test_dates, columns=['y_test_dates'])
+
         # ****************  Visualization  ******************************************
     image_dict = {}
     # Plot the train data, the actual unseen data (y_test) and the predictions (y_pred)
@@ -112,4 +127,7 @@ def predict_stock_price_api(query):
     # and delta (absolute value btw both)
     summary = create_summary_api(y_test, y_pred, y_test_dates)
 
-    return image_dict, summary
+    return  basic_info, \
+            y_train_export, y_train_dates_export, \
+            y_test_export, y_test_dates_export,\
+            y_pred_export, image_dict, summary
