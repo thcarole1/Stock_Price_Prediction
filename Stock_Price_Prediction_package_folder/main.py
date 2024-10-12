@@ -1,3 +1,4 @@
+import pandas as pd
 
 # Import from .py files
 from ml_logic.data import retrieve_data, retrieve_historical_data,\
@@ -37,6 +38,13 @@ def predict_stock_price():
 
     # Retrieve short name of company
     short_name = retrieve_short_name(data)
+
+    # Basic information dataframe
+    basic_info = pd.DataFrame( {"ticker" : ticker,
+                                "short_name" : short_name,
+                                "currency" : currency},
+                                index = [0])
+    print(basic_info)
 
     # Check for outliers
     numerical_columns_w_outliers, numerical_columns_no_outliers = check_outliers(historical_data)

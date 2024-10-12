@@ -15,7 +15,10 @@ def index():
 
 @app.get("/ticker/")
 async def read_item(query: str):
-    image_dict, summary = predict_stock_price_api(query)
+    basic_info, \
+    y_train_export, y_train_dates_export, \
+    y_test_export, y_test_dates_export,\
+    y_pred_export, image_dict, summary = predict_stock_price_api(query)
 
     # Create a ZIP archive in memory
     zip_buffer = BytesIO()
@@ -26,11 +29,22 @@ async def read_item(query: str):
             image_data = value[1] # Replace with actual image data
             zip_file.writestr(image_name, image_data)
 
-        # Add Pandas dataframe as CSV
-        csv_buffer = BytesIO()
-        summary.to_csv(csv_buffer, index=False)
-        csv_buffer.seek(0)
-        zip_file.writestr("summary.csv", csv_buffer.read())
+        # Add Pandas dataframes as CSV
+        export_list = [basic_info, \
+                        y_train_export, y_train_dates_export, \
+                        y_test_export, y_test_dates_export,\
+                        y_pred_export, summary]
+
+        export_list_str = ['basic_info', \
+                        'y_train_export', 'y_train_dates_export', \
+                        'y_test_export', 'y_test_dates_export',\
+                        'y_pred_export', 'summary']
+
+        for index, dataframe in enumerate(export_list):
+            csv_buffer = BytesIO()
+            dataframe.to_csv(csv_buffer, index=False)
+            csv_buffer.seek(0)
+            zip_file.writestr(f"{export_list_str[index]}.csv", csv_buffer.read())
 
     zip_buffer.seek(0)  # Reset buffer cursor for reading
 
