@@ -52,6 +52,7 @@ async def read_item(query: str):
     with open("zip_buffer_file", "wb") as f:
         f.write(zip_buffer.getvalue())
 
+
     return FileResponse("zip_buffer_file",
                         media_type="application/zip",
                         filename="stock_price_prediction_data.zip")
